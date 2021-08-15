@@ -1,0 +1,8 @@
+﻿CREATE SEQUENCE public.usuario_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 4;
+
+ALTER TABLE usuario ALTER COLUMN id SET DEFAULT nextval('usuario_seq'::regclass);
+
