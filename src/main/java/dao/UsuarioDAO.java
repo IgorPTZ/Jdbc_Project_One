@@ -23,15 +23,13 @@ public class UsuarioDAO {
 		
 		try {
 			
-			String sql = "insert into usuario (id, nome, email) values (?, ?, ?)";
+			String sql = "insert into usuario (nome, email) values (?, ?)";
 			
 			PreparedStatement preparedStatement = conexao.prepareStatement(sql);
 			
-			preparedStatement.setLong(1, usuario.getId());
+			preparedStatement.setString(1, usuario.getNome());
 			
-			preparedStatement.setString(2, usuario.getNome());
-			
-			preparedStatement.setString(3, usuario.getEmail());
+			preparedStatement.setString(2, usuario.getEmail());
 			
 			preparedStatement.execute();
 			
@@ -126,6 +124,33 @@ public class UsuarioDAO {
 			preparedStatement.execute();
 			
 			conexao.commit();	 
+		}
+		catch(Exception e) {
+			
+			e.printStackTrace();
+			
+			try {
+				
+				conexao.rollback();
+			}
+			catch(SQLException e1) {
+				
+				e1.printStackTrace();
+			}
+		}
+	}
+	
+	public void excluir(Long id) {
+		
+		try {
+			
+			String sql = "delete from usuario where id = " + id;
+			
+			PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+			
+			preparedStatement.execute();
+			
+			conexao.commit();
 		}
 		catch(Exception e) {
 			

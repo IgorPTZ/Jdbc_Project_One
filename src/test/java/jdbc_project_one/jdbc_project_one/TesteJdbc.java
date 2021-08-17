@@ -10,18 +10,18 @@ import model.Usuario;
 public class TesteJdbc {
 	
 	@Test
-	public void initInserir() {
+	public void inserir() {
 		
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		
-		Usuario usuario = new Usuario(3L, "Maria dos Santos Pereira", "maria.pereira@hotmail.com");
+		Usuario usuario = new Usuario(null, "Maria dos Santos Pereira", "maria.pereira@hotmail.com");
 		
 		usuarioDao.inserir(usuario);
 	}
 	
 	
 	@Test
-	public void initObter() {
+	public void obter() {
 		
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		
@@ -31,7 +31,7 @@ public class TesteJdbc {
 	}
 	
 	@Test
-	public void initListar() {
+	public void listar() {
 		
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		
@@ -46,7 +46,7 @@ public class TesteJdbc {
 	}
 	
 	@Test
-	public void initiAlterar() {
+	public void alterar() {
 		
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		
@@ -55,5 +55,13 @@ public class TesteJdbc {
 		usuario.setEmail("igor.ptz@hotmail.com");
 		
 		usuarioDao.alterar(usuario);
+	}
+	
+	@Test
+	public void excluir() {
+		
+		UsuarioDAO usuarioDao = new UsuarioDAO();
+		
+		usuarioDao.excluir(5L);
 	}
 }

@@ -1,0 +1,8 @@
+﻿CREATE SEQUENCE public.telefone_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 4;
+
+ALTER TABLE telefone ALTER COLUMN id SET DEFAULT nextval('telefone_seq'::regclass);
+
