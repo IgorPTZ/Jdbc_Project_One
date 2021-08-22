@@ -5,7 +5,9 @@ import java.util.List;
 import org.junit.Test;
 
 import dao.UsuarioDAO;
+import model.Telefone;
 import model.Usuario;
+import model.UsuarioTelefone;
 
 public class TesteJdbc {
 	
@@ -14,9 +16,19 @@ public class TesteJdbc {
 		
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		
-		Usuario usuario = new Usuario(null, "Maria dos Santos Pereira", "maria.pereira@hotmail.com");
+		Usuario usuario = new Usuario(null, "Reinaldo dos Santos Pereira", "reinaldo.pereira@hotmail.com");
 		
 		usuarioDao.inserir(usuario);
+	}
+	
+	@Test
+	public void inserirTelefone() {
+		
+		UsuarioDAO usuarioDao = new UsuarioDAO();
+		
+		Telefone telefone = new Telefone("71996998989", "Fixo", 6L);
+		
+		usuarioDao.inserirTelefone(telefone);
 	}
 	
 	
@@ -31,7 +43,7 @@ public class TesteJdbc {
 	}
 	
 	@Test
-	public void listar() {
+	public void listarUsuarios() {
 		
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		
@@ -40,6 +52,21 @@ public class TesteJdbc {
 		for(Usuario usuario : usuarios) {
 			
 			System.out.println(usuario);
+			
+			System.out.println("---------------------------------------------------------");
+		}
+	}
+	
+	@Test
+	public void listarDados() {
+		
+		UsuarioDAO usuarioDao = new UsuarioDAO();
+		
+		List<UsuarioTelefone> dados = usuarioDao.listar(1L);
+		
+		for(UsuarioTelefone dado : dados) {
+			
+			System.out.println(dado);
 			
 			System.out.println("---------------------------------------------------------");
 		}
@@ -63,5 +90,13 @@ public class TesteJdbc {
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		
 		usuarioDao.excluir(5L);
+	}
+	
+	@Test
+	public void excluirTelefones() {
+		
+		UsuarioDAO usuarioDao = new UsuarioDAO();
+		
+		usuarioDao.excluirTelefones(6L);
 	}
 }

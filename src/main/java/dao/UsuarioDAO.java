@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import conexaojdbc.SingleConnection;
+import model.Telefone;
 import model.Usuario;
+import model.UsuarioTelefone;
 
 public class UsuarioDAO {
 	
@@ -30,6 +32,39 @@ public class UsuarioDAO {
 			preparedStatement.setString(1, usuario.getNome());
 			
 			preparedStatement.setString(2, usuario.getEmail());
+			
+			preparedStatement.execute();
+			
+			conexao.commit();
+		}
+		catch(Exception e) {
+			
+			e.printStackTrace();
+			
+			try {
+				
+				conexao.rollback();
+			}
+			catch(SQLException e1) {
+				
+				e1.printStackTrace();
+			}
+		}
+	}
+	
+	public void inserirTelefone(Telefone telefone) {
+		
+		try {
+			
+			String sql = "insert into telefone(numero, tipo, usuario_id) values (?, ?, ?)";
+			
+			PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+			
+			preparedStatement.setString(1, telefone.getNumero());
+			
+			preparedStatement.setString(2, telefone.getTipo());
+			
+			preparedStatement.setLong(3, telefone.getUsuarioId());
 			
 			preparedStatement.execute();
 			
@@ -109,6 +144,37 @@ public class UsuarioDAO {
 		return null;
 	}
 	
+	public List<UsuarioTelefone> listar(Long usuarioId) {
+		
+		try {
+			
+			List<UsuarioTelefone> dados = new ArrayList<UsuarioTelefone>();
+			
+			String sql = " select nome, email, numero from telefone as t inner join usuario as u on t.usuario_id = u.id where u.id = " + usuarioId;
+		
+			PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()) {
+				
+				UsuarioTelefone usuarioTelefone = new UsuarioTelefone(resultSet.getString("nome"),
+						                                              resultSet.getString("email"),
+						                                              resultSet.getString("numero"));
+				
+				dados.add(usuarioTelefone);
+			}
+			
+			return dados;
+		}
+		catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+	
+		return null;
+	}
+	
 	public void alterar(Usuario usuario) {
 		
 		try {
@@ -151,6 +217,35 @@ public class UsuarioDAO {
 			preparedStatement.execute();
 			
 			conexao.commit();
+		}
+		catch(Exception e) {
+			
+			e.printStackTrace();
+			
+			try {
+				
+				conexao.rollback();
+			}
+			catch(SQLException e1) {
+				
+				e1.printStackTrace();
+			}
+		}
+	}
+	
+	public void excluirTelefones(Long usuarioId) {
+		
+		try {
+			
+			String sql = "delete from telefone where usuario_id = " + usuarioId;
+			
+			PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+			
+			preparedStatement.executeUpdate();
+			
+			conexao.commit();
+			
+			this.excluir(usuarioId);
 		}
 		catch(Exception e) {
 			
